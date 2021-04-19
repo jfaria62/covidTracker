@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <script>
+        //get data
+        
+        //visuals handling
+
+        //button handling
+
+    </script>
+    <!--Top Page Title Bar-->
+    <div class="conatainer d-flex p-2">
+        <h1 class="mx-auto">National Covid-19 Tracker</h1>
+    </div>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-fill">
+        <div class="container-fluid">
+            <div class="navbar-brand border-right border-light">Map Options</div>
+            <!--Nav Items-->
+            <!--
+                <a class="nav-link active" aria-current="page" href="#">Positive Cases</a>
+                
+                <a class="nav-link" href="#">Hospitalizations</a>
+                <a class="nav-link" href="#">Deaths</a>
+                <a class="nav-link" href="#">Currently On Ventilator</a>
+                <a class="nav-link" href="#">Increases</a>
+            -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Positive Cases </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Hospitalizations</a>
+                    </li>                
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Deaths</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Currently On Ventilator</a>
+                    </li>                
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Increases</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            States
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Alabama</a>
+                            <a class="dropdown-item" href="#">Alaska</a>
+                            <a class="dropdown-item" href="#">Arizona</a>
+                            <a class="dropdown-item" href="#">Arkansas</a>
+                            <a class="dropdown-item" href="#">California</a>
+                            <a class="dropdown-item" href="#">Colorado</a>
+                            <a class="dropdown-item" href="#">Connecticut</a>
+                        </div>
+                    </li>
+                </ul>
+            
+            </div>
+        </div>
+    </nav>
+    <!--Map, Calendar, Charts, Data Boxes-->
+    <div id="toprow" class="row row-cols-3">
+        <div class="col-sm-2">
+            <img id="cal" src="./cal.png" alt="sample Calendar">    
+        </div>
+        <div  class="col-lg-8 ml-auto" id="map">
+            <img id="mapImage" src="./map.png" alt="usMap">
+        </div>
+        <div class="col-sm-2 ml-auto">
+            <div class="col-11 statbox">
+                <ul><h6>Current US Total Data </h6>
+                    <li>Cases: 28.6M</li>
+                    <li>Deaths: 512K</li>
+                    <li>Vaccinated: 24k</li>
+                    <li>Tests: 353M</li>
+                </ul>
+            </div>
+            <div class="col-11 statbox">
+                <ul><h6>More Data</h6> 
+                    <li>Cases: 28.6M</li>
+                    <li>Deaths: 512K</li>
+                    <li>Vaccinated: 24k</li>
+                    <li>Tests: 353M</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div  class="col-md statbox">
+            <img class="graph" src="./bar.png">
+        </div>
+        <div class="col-md statbox">
+            <img class="graph" src="./pie.png">
+        </div>
+        <div class="col-md statbox">
+            <img class="graph" src="./scatter.png">
+        </div>
+    </div>
+</body>
+</html>
