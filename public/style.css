@@ -1,3 +1,8 @@
+.dropdown-menu{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 200px;
+}
 #toprow{
     margin-top: .5em;
     margin-bottom: 1em;

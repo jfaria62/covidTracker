@@ -21,20 +21,40 @@
 </head>
 <body>
     <script type="text/javascript">
-        //get data
-        const socket = io()
-        //send request for state data
-        let testData = ['']
-        socket.emit('request data', )
-        
-        socket.on('send data', (data)=>{
-            $("#generalStats ul").append(`<li>Deaths: ${data[0].death}</li>`)
-            console.log(data)
-        })
+        $(document).ready(function() {
 
-        //visuals handling
 
-        //button handling
+
+            //GET DATA
+            const socket = io()
+            //send request for state data
+            
+            //populate Data when sent
+            socket.on('send data', (data)=>{
+                //list of things that need to be changed with each request
+                //
+                console.log(data)
+                $("#generalStats ul").append(`<li>Deaths: ${data[0].death}</li>`)
+                testData = data[0]
+            })
+            //button handling
+            $(".dropdown-menu option").on("click", function(){
+                let state = $(this).val() 
+                
+                socket.emit('state change', state)
+                console.log("cliked")
+            });
+    
+    
+            //visuals handling
+            //change which data map is showing (hospitalizations, Deaths, On Ventilators, Increases)
+            function changeMap(option){
+                
+                
+            }
+
+
+        });
 
     </script>
     <!--Top Page Title Bar-->
@@ -45,47 +65,31 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-fill">
         <div class="container-fluid">
             <div class="navbar-brand border-right border-light">Map Options</div>
-            <!--Nav Items-->
-            <!--
-                <a class="nav-link active" aria-current="page" href="#">Positive Cases</a>
-                
-                <a class="nav-link" href="#">Hospitalizations</a>
-                <a class="nav-link" href="#">Deaths</a>
-                <a class="nav-link" href="#">Currently On Ventilator</a>
-                <a class="nav-link" href="#">Increases</a>
-            -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Positive Cases </a>
+                        <a class="nav-link active" onclick="changeMap('positive')">Positive Cases </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Hospitalizations</a>
+                        <a class="nav-link" onclick="changeMap('hospitalized')">Hospitalizations</a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Deaths</a>
+                        <a class="nav-link" onclick="changeMap('death')">Deaths</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Currently On Ventilator</a>
+                        <a class="nav-link" onclick="changeMap('onVentilatorCurrently')">Currently On Ventilator</a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Increases</a>
+                        <a class="nav-link" onclick="changeMap('positiveIncrease')">Increases</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             States
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <!--<a class="dropdown-item" href="#">Alabama</a>
-                            <a class="dropdown-item" href="#">Alaska</a>
-                            <a class="dropdown-item" href="#">Arizona</a>
-                            <a class="dropdown-item" href="#">Arkansas</a>
-                            <a class="dropdown-item" href="#">California</a>
-                            <a class="dropdown-item" href="#">Colorado</a>
-                            <a class="dropdown-item" href="#">Connecticut</a>-->
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>

@@ -5,19 +5,10 @@ const https = require('https')
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
-
-//date must be in yyyymmdd format for the api
-selectedDate = '20210101'
-//set ma to default state
-selectedState = 'ma'
 //set strings for api calls
 const baseURL = 'https://api.covidtracking.com/v1/'
 const current = 'us/current.json'
 const historic = 'us/daily.json'
-const date = 'us/'+ selectedDate + '.json'
-const stateMetadata = 'states/' + selectedState + '/info.json'
-const stateData = 'states/' + selectedState + '/current.json'
-const histStateData = 'states/' + selectedState + '/daily.json'
 
 
 const port = process.env.PORT || 3000
@@ -28,13 +19,29 @@ app.get('/', (req,res)=>{
   res.sendFile(path.join(__dirname, 'public/main.html'))
 })
 
+//client-to-server communication goes through socket
 io.on('connection', (socket)=>{  
+  
+  //date must be in yyyymmdd format for the api
+  selectedDate = '20210101'
+  //set ma to default state
+  selectedState = 'ma'
+  const date = 'us/'+ selectedDate + '.json'
+  const stateMetadata = 'states/' + selectedState + '/info.json'
+  const stateData = 'states/' + selectedState + '/current.json'
+  const histStateData = 'states/' + selectedState + '/daily.json'
+  
   console.log("New Connection")
   socket.emit('status', 'Connection done')
   //set default data to client
   getCovidData(baseURL+ current)
+  
+  socket.on('state change', (state)=>{
+    console.log(state)
+    selectedState = state
+    getCovidData(baseURL + stateData)
+  })
 })
-
 
 function getCovidData(apiString){  
   console.log(apiString)
