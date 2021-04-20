@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const https = require('https')
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
 
 
 //date must be in yyyymmdd format for the api
@@ -9,45 +11,47 @@ selectedDate = '20210101'
 //set ma to default state
 selectedState = 'ma'
 //set strings for api calls
-const current = 'https://api.covidtracking.com/v1/us/current.json'
-const historic = 'https://api.covidtracking.com/v1/us/daily.json'
-const date = 'https://api.covidtracking.com/v1/us/'+ selectedDate + '.json'
-const stateMetadata = ' https://api.covidtracking.com/v1/states/' + selectedState + '/info.json'
-const stateData = ' https://api.covidtracking.com/v1/states/' + selectedState + '/current.json'
-const histStateData = ' https://api.covidtracking.com/v1/states/' + selectedState + '/daily.json'
+const baseURL = 'https://api.covidtracking.com/v1/'
+const current = 'us/current.json'
+const historic = 'us/daily.json'
+const date = 'us/'+ selectedDate + '.json'
+const stateMetadata = 'states/' + selectedState + '/info.json'
+const stateData = 'states/' + selectedState + '/current.json'
+const histStateData = 'states/' + selectedState + '/daily.json'
+
 
 const port = process.env.PORT || 3000
-
-
-let apiString = current
-let data = getCovidData(apiString)
-console.log(data)
+server.listen(port)
 app.use(express.urlencoded({extended:false}))
 
-app.listen(port, ()=>{
-  console.log(`Server Listening on port ${port}`)
-})
-
-//get main page
-
 app.get('/', (req,res)=>{
-  console.log(data)
   res.sendFile(path.join(__dirname, '/public/main.html'))
 })
-//app.post
+
+io.on('connection', (socket)=>{  
+  console.log("New Connection")
+  socket.emit('status', 'Connection done')
+  //set default data to client
+  getCovidData(baseURL+ current)
+})
 
 
 function getCovidData(apiString){  
-  https.get(apiString, (res) =>{
-    console.log('statusCode:', res.statusCode);
-    console.log('headers:', res.headers);
-
-    res.on('data', (d) => {
-      process.stdout.write(d);
-      return d;
-    });
+  console.log(apiString)
   
+  https.get(apiString, res =>{
+    let data = ''
+    res.on('data', d => {
+      //build data with chunks
+      data += d
+    })
+    
+    res.on('end', () =>{
+      let covidData = JSON.parse(data)
+      //SEND THE DATA TO THE CLIENT SIDE HERE
+      io.emit('send data', covidData)
+    })
   }).on('error', (e) => {
-    console.error(e);
+    console.error("Error: ", e.message);
   });
 }

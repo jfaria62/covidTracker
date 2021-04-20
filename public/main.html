@@ -5,15 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Covid-19 Tracker</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <link type="text/html" rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
-    <script>
+    <script type="text/javascript">
         //get data
-
+        const socket = io()
+        //send request for state data
+        let testData = ['']
+        socket.emit('request data', )
+        
+        socket.on('send data', (data)=>{
+            $("#generalStats ul").append(`<li>Deaths: ${data[0].death}</li>`)
+            console.log(data)
+        })
         //visuals handling
 
         //button handling
@@ -78,18 +86,14 @@
     <!--Map, Calendar, Charts, Data Boxes-->
     <div id="toprow" class="row row-cols-3">
         <div class="col-sm-2">
-            <img id="cal" src="./cal.png" alt="sample Calendar">    
+            <img id="cal"  alt="sample Calendar">    
         </div>
         <div  class="col-lg-8 ml-auto" id="map">
-            <img id="mapImage" src="./map.png" alt="usMap">
+            <img id="mapImage"  alt="usMap">
         </div>
         <div class="col-sm-2 ml-auto">
-            <div class="col-11 statbox">
-                <ul><h6>Current US Total Data </h6>
-                    <li>Cases: 28.6M</li>
-                    <li>Deaths: 512K</li>
-                    <li>Vaccinated: 24k</li>
-                    <li>Tests: 353M</li>
+            <div id="generalStats" class="col-11 statbox">
+                <ul ><h6>Current US Total Data </h6>                    
                 </ul>
             </div>
             <div class="col-11 statbox">
@@ -104,13 +108,13 @@
     </div>
     <div class="row">
         <div  class="col-md statbox">
-            <img class="graph" src="./bar.png">
+            <img class="graph" >
         </div>
         <div class="col-md statbox">
-            <img class="graph" src="./pie.png">
+            <img class="graph" >
         </div>
         <div class="col-md statbox">
-            <img class="graph" src="./scatter.png">
+            <img class="graph" >
         </div>
     </div>
 </body>
