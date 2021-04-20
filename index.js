@@ -22,10 +22,10 @@ const histStateData = 'states/' + selectedState + '/daily.json'
 
 const port = process.env.PORT || 3000
 server.listen(port)
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:false}), express.static('public'))
 
 app.get('/', (req,res)=>{
-  res.sendFile(path.join(__dirname, '/public/main.html'))
+  res.sendFile(path.join(__dirname, 'public/main.html'))
 })
 
 io.on('connection', (socket)=>{  
